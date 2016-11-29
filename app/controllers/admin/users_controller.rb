@@ -4,7 +4,7 @@ class Admin::UsersController < ApplicationController
 
 	before_action :remove_password, only: [:update]
 
-	before_action :has_access?
+	#before_action :has_access?
 
   def index
   	@users = User.all.paginate(page: params[:page], per_page: 10)
@@ -20,6 +20,7 @@ class Admin::UsersController < ApplicationController
 
 	def create
 		@user = User.new(user_params)
+		@user.add_role params[:user][:role]
 		if @user.save!
 			redirect_to admin_users_path, notice: "Successfully created a new User"
 		else

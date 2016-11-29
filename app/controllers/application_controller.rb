@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
-#  layout :layout_by_resource
+  layout :layout_by_resource
 
   # def configure_permitted_parameters
   #   devise_parameter_sanitizer.for(:sign_up) { |u| u.permit(:username, :email, :password, :password_confirmation, :remember_me) }
@@ -12,24 +12,28 @@ class ApplicationController < ActionController::Base
   # end
 
   def after_sign_in_path_for(resource)
-    if resource.has_role? :super_admin
-      admin_path(current_user)
+    if resource.class == Admin
+      admin_home_path
     else 
       users_path(current_user)
     end
   end
 
   def after_sign_out_path_for(resource)
-    admin_home_path
+   if resource == :user
+      users_sign_in_path
+    else 
+      admins_sign_in_path 
+    end
   end
 
-# protected
+protected
 
-#     def layout_by_resource
-#       if devise_controller? && resource_name == :admin
-#         "admin"
-#       else
-#         "application"
-#       end
-#     end
+    def layout_by_resource
+      if devise_controller? && resource_name == :admin
+        "admin"
+      else
+        "application"
+      end
+    end
 end

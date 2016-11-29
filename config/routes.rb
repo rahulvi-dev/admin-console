@@ -1,5 +1,12 @@
 Rails.application.routes.draw do
 
+  devise_for :admins, :controllers => { 
+      :sessions => "admins/sessions", 
+      :registrations => "admins/registrations", 
+      :passwords => "admins/passwords", 
+      :confirmations => "admins/confirmations"
+    }
+
   devise_for :users, :controllers => { 
       :sessions => "users/sessions", 
       :registrations => "users/registrations", 
@@ -13,20 +20,35 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   devise_scope :user do
     root to: 'users/sessions#new'
+    get 'users/sign_in', to: 'users/sessions#new' , :path => "user/login"
+    delete 'users/sign_out', to: 'users/sessions#destroy' , :path => "user/logout" 
   end
   
-
   get 'users/:id' => 'users#show', as: :users
+
+  devise_scope :admin do
+    get 'admins/sign_in', to: 'admins/sessions#new' , :path => "admin/login"
+    get 'admins/sign_up', to: 'admins/registrations#new' , :path => "admin/sign_up"
+    delete 'admins/sign_out', to: 'admins/sessions#destroy' , :path => "admin/logout"
+  end
 
   namespace :admin do
     resources :users
-    resources :roles
-    resources :user_roles
     get 'home' => 'dashboard#home'
-    get 'home/:id' => 'users#show'
-    get 'charts' => 'dashboard#charts'
+    #get 'home/:id' => 'users#show'
     get 'tables' => 'dashboard#tables'
   end
+
+
+   get '/admins/' => 'admins#index',:as => 'admins'
+   post '/admin' => 'admins#create'
+   get '/admin/new' => 'admins#new', :as => 'new_admin'
+   get '/admin/:id/edit' => 'admins#edit', :as => 'edit_admin'
+   patch '/admin/:id' => 'admins#update', :as => 'update_admin'
+   get '/admin/:id' => 'admins#show', :as => 'show_admin'
+   
+   delete 'admin/:id' => 'admins#destroy', :as => 'destroy_admin'
+
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

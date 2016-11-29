@@ -27,4 +27,8 @@
          %br/
          = f.text_field :mobile_number, class: "form-control"
          %br/
+         -if @user.new_record?
+            %label Role :
+            = f.collection_select :roles, Role.all ,:name,:name
+         %br/
          = f.submit "Submit", class: "btn-primary"

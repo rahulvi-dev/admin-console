@@ -1,0 +1,43 @@
+= render partial: 'admin/dashboard/home'
+.col-lg-8.main
+  .row
+    %ol.breadcrumb
+      %li
+        %a{:href => "/admin/home"}
+          %span.glyphicon.glyphicon-home{"aria-hidden" => "true"}
+      %li.active= @admin.class
+  .row
+    .col-lg-12
+      %h1.page-header
+        New #{@admin.class}
+    .panel-body
+      .container
+        .col-md-10
+          = form_for @admin do |f|
+            %br/
+            %label Email :
+            = f.email_field :email, class: "form-control", autofocus: true
+            %br/
+            %label Password :
+            = f.password_field :password, class: "form-control"
+            %br/
+            %label Password confirmation :
+            = f.password_field :password_confirmation, class: "form-control"
+            %br/
+            %label First Name :
+            %br/
+            = f.text_field :first_name, class: "form-control"
+            %br/
+            %label Last Name :
+            %br/
+            = f.text_field :last_name, class: "form-control"
+            %br/
+            %label City :
+            %br/
+            = f.text_field :city, class: "form-control"
+            %br/
+            %label Mobile No :
+            %br/
+            = f.text_field :mobile_number, class: "form-control"
+            %br/
+            = f.submit "Submit", class: "btn-primary"      

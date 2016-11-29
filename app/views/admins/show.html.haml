@@ -1,0 +1,46 @@
+= render partial: 'admin/dashboard/home'
+.col-lg-8.main
+  .row
+    %ol.breadcrumb
+      %li
+        %a{:href => "/admin/home"}
+          %span.glyphicon.glyphicon-home{"aria-hidden" => "true"}
+      %li.active= @admin.class
+  .row
+    .col-lg-12
+      %h1.page-header= @admin.class
+      %hr
+      .panel-body
+        .col-lg-8
+          %label ID :
+        .col-lg-4
+          = @admin.id
+        .col-lg-8
+          %label Email :
+        .col-lg-4
+          = @admin.email
+        .col-lg-8
+          %label First Name :
+        .col-lg-4
+          = @admin.first_name
+        .col-lg-8
+          %label Last Name :
+        .col-lg-4
+          = @admin.last_name
+        .col-lg-8
+          %label City :
+        .col-lg-4
+          = @admin.city
+        .col-lg-8
+          %label Mobile No :
+        .col-lg-4
+          = @admin.mobile_number
+        %hr
+        .col-md-5
+          = link_to edit_admin_path(@admin.id), class: "btn btn-info" do
+            %i.glyphicon.glyphicon-pencil
+            %strong Edit
+        .col-md-5
+          = link_to  admin_path(@admin.id), method: :delete, class: "btn btn-info" do
+            %i.glyphicon.glyphicon-trash
+            %strong Delete

@@ -7,7 +7,7 @@ begin
     pst = db.execute "SELECT name FROM sqlite_master
             WHERE type='table'
             ORDER BY name;"
-    pst = pst - [["schema_migrations"],["sqlite_sequence"],["users_roles"]]
+    pst = pst - [["schema_migrations"],["sqlite_sequence"],["users_roles"],["roles"]]
     pst = pst.join(",")
     pst = pst.split(",")
     pst.each do |row| %>
@@ -18,7 +18,12 @@ begin
           <%= row.classify.constantize.count %>
         </div>
       </div>
-      </div><a href="/admin/<%= row%>">View <%= row%></a>
+      </div>
+      <%if row=="users"%> 
+      <a href="/admin/<%= row%>">View <%= row%></a>
+      <%else%>
+      <a href="/<%= row%>">View <%= row%></a>
+      <%end%>
     <%
     end
 
